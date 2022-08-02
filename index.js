@@ -7,6 +7,7 @@ const {
   errorHandler,
 } = require("./middleware/errorHandlerMiddleware");
 const connectDB = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
 
 // database connection
 connectDB();
@@ -17,8 +18,11 @@ const app = express();
 // middleware
 app.use([morgan("dev"), express.json()]);
 
-app.use(notFound)
-app.use(errorHandler)
+// routes
+app.use("/api/users", userRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 // port
 const port = process.env.PORT || 5000;
