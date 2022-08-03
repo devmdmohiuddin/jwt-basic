@@ -7,7 +7,8 @@ const {
   errorHandler,
 } = require("./middleware/errorHandlerMiddleware");
 const connectDB = require("./config/db");
-const userRoutes = require("./routes/userRoutes");
+const userRouter = require("./routes/userRoutes");
+const dashboardRouter = require("./routes/dashboardRoutes");
 
 // database connection
 connectDB();
@@ -19,7 +20,8 @@ const app = express();
 app.use([morgan("dev"), express.json()]);
 
 // routes
-app.use("/api/users", userRoutes);
+app.use("/api/users", userRouter);
+app.use("/api/dashboard", dashboardRouter);
 
 app.use(notFound);
 app.use(errorHandler);

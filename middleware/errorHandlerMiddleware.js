@@ -1,17 +1,20 @@
-const CustomAPIError = require('../errors/customError')
+const { Custom } = require("../errors");
+const { StatusCodes } = require("http-status-codes");
 
-const notFound = (_, res) => res.status(404).send("Route doesn't exist.");
+const notFound = (_, res) =>
+  res.status(StatusCodes.NOT_FOUND).send("Route doesn't exist.");
 
 const errorHandler = (err, req, res, next) => {
-  if (err instanceof CustomAPIError) {
+  if (err instanceof Custom) {
     return res.status(err.statusCode).json({ msg: err.message });
   }
 
   return res
-    .status(500)
-    .json({ msg: "Something went wrong, Please try again." });
+    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .send("Something went wrong, Please try again.");
 };
 
 module.exports = {
-  notFound, errorHandler
-}
+  notFound,
+  errorHandler,
+};
